@@ -100,21 +100,24 @@ function groupSample(...args) {
 }
 groupSample("Welcome", "to", "JavaScript", 10, 15, 20);
 
-// Arrow functions
 const we = function (value) {
   return value + 1000;
 };
 console.log(we(15));
 
-// Another way of writing the arrow function
+// Another way of writing the function with the arrow syntax
 const me = (value50) => value50 + 100;
+// const me = (value50) => {
+//   return value50 + 100;
+// };
 console.log(me(15));
 
 // Arrow function with two parameters
 const example = (num1, num2) => {
-  num1 + num2;
+  return num1 + num2;
 };
-example(1, 2);
+console.log(example(1, 2));
 
 // Arrow function with no parameter
 const example2 = () => 10 + 5;
+console.log(example2())
