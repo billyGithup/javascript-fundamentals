@@ -93,3 +93,28 @@ function subtractThis(value1, value2 = 5) {
 }
 console.log(subtractThis(15, 7));
 console.log(subtractThis(15));
+
+// Rest parameters
+function groupSample(...args) {
+  console.log(args);
+}
+groupSample("Welcome", "to", "JavaScript", 10, 15, 20);
+
+// Arrow functions
+const we = function (value) {
+  return value + 1000;
+};
+console.log(we(15));
+
+// Another way of writing the arrow function
+const me = (value50) => value50 + 100;
+console.log(me(15));
+
+// Arrow function with two parameters
+const example = (num1, num2) => {
+  num1 + num2;
+};
+example(1, 2);
+
+// Arrow function with no parameter
+const example2 = () => 10 + 5;
