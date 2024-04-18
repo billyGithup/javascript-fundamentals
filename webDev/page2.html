@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attributes</title>
+  </head>
+  <body>
+    <!-- Horizontal Navigation -->
+    <div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Page 1</a></li>
+        <li><a href="#" class="active">Page 2</a></li>
+        <li><a href="page3.html">Page 3</a></li>
+      </ul>
+    </div>
+
+    <!-- The below elements will have attributes added -->
+    <div class="section_c">
+      <p style="color: purple; font-size: x-large">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti sequi
+        quae soluta asperiores quidem dolore consectetur iusto corporis id? Cum
+        distinctio unde ab odio quia reiciendis? Quia, maxime fugit labore
+        maiores, non sint magnam voluptates quas eligendi, quidem dolorum
+        commodi.
+      </p>
+
+      <h3>My grocery list</h3>
+      <ul class="grocery_list" id="grocery">
+        <li>Milky</li>
+        <li>Eggs</li>
+        <li>Bread</li>
+        <li>Lunch meat</li>
+        <li>Cheese</li>
+        <li>Cereal</li>
+      </ul>
+
+      <img src="https://i.ibb.co/GckCvqJ/dog-image7.jpg" alt="dog-image7" />
+
+      <button id="btn-change" onclick="changeList()">Change List</button>
+
+      <h2>Link to Sports</h2>
+      <a href="http://www.espn.com" target="_blank">ESPN</a>
+    </div>
+
+    <div id="box"></div>
+
+    <script>
+      function changeList() {
+        document.getElementById("grocery").classList.toggle("grocery_square");
+      }
+
+      let boxInfo = document.getElementById("box");
+
+      console.log(boxInfo.offsetWidth);
+      console.log(boxInfo.offsetHeight);
+    </script>
+  </body>
+</html>
