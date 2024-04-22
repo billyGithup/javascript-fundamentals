@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page 3</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Horizontal Navigation  -->
+    <div>
+      <ul class="nav-h">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="page1.html">Page 1</a></li>
+        <li><a href="page2.html">Page 2</a></li>
+        <li><a href="#" class="active">Page 3</a></li>
+      </ul>
+    </div>
+
+    <!-- Form part -->
+    <form onsubmit="myInfo(event)">
+      <!-- Person Information -->
+      <div class="person">
+        <label for="firstName">First Name:</label>
+        <br />
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          onkeypress="change()"
+        />
+        <br />
+
+        <label for="addr">Address:</label> <br />
+        <input type="text" name="addr" id="addr" onblur="blurFunc()" /> <br />
+
+        <label for="pass">Password:</label> <br />
+        <input type="password" name="pass" id="pass" /> <br />
+      </div>
+
+      <br />
+      <div class="movie-choice">
+        <!-- Radio buttons for movie genres -->
+        <input type="radio" id="a" name="movie" value="action" />
+        <label for="a">Action</label><br />
+
+        <input type="radio" id="c" name="movie" value="comedy" />
+        <label for="c">Comedy</label> <br />
+
+        <input type="radio" id="d" name="movie" value="drama" />
+        <label for="d">Drama</label> <br />
+
+        <input type="radio" id="s" name="movie" value="scifi" />
+        <label for="s">SciFi</label> <br />
+
+        <input type="radio" id="r" name="movie" value="romance" />
+        <label for="r">Romance</label> <br />
+
+        <input type="radio" id="t" name="movie" value="thriller" />
+        <label for="t">Thriller</label> <br />
+      </div>
+
+      <br />
+      <button id="btn-form" type="submit">Submit</button>
+
+      <br />
+      <div class="person">
+        <p id="my-name"></p>
+        <p id="movie-choice"></p>
+      </div>
+    </form>
+
+    <script>
+      // For form logic
+      function change() {
+        console.log("It is being changed!");
+      }
+
+      function blurFunc() {
+        console.log("The field is not focused in anymore.");
+      }
+
+      function getMovieChoice() {
+        const radioBtnChoices = document.getElementsByName("movie");
+
+        for (let index = 0; index < radioBtnChoices.length; index++) {
+          if (radioBtnChoices[index].checked) {
+            return "Movie Genre: " + radioBtnChoices[index].value;
+          }
+        }
+      }
+
+      function myInfo(event) {
+        // It prevents the browser from refreshing the page after the form is submitted.
+        event.preventDefault();
+
+        // These variables take info from input elements
+        const firstName = document.getElementById("firstName").value;
+        const movieChoice = getMovieChoice();
+
+        // The variables will output to different elements
+        document.getElementById("my-name").innerHTML = firstName;
+        document.getElementById("movie-choice").innerHTML = movieChoice;
+
+        alert(`Name: ${firstName} and ${movieChoice}`);
+      }
+    </script>
+  </body>
+</html>
