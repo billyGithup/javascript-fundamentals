@@ -36,12 +36,64 @@ const fsPromise = require("fs").promises;
 //   console.log(data);
 // });
 
-const example = async () => {
-  try {
-    const data = await fsPromise.readFile("input.txt", { encoding: "utf8" });
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-example();
+// const example = async () => {
+//   try {
+//     const data = await fsPromise.readFile("input.txt", { encoding: "utf8" });
+//     console.log(data);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// example();
+
+// try {
+//   const data = fs.readFileSync("input.txt", "utf8");
+//   console.log(data);
+// } catch (error) {
+//   console.error(error);
+// }
+
+// This part is for creating files
+// fs.writeFile("input.txt", "Some content", (err) => {
+//   if (err) console.log(err);
+//   console.log('File saved!');
+// });
+
+// const writeFileFunc = async () => {
+//   try {
+//     const content = "Kristen";
+//     await fsPromise.writeFile("input2.txt", content);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// writeFileFunc();
+
+// const writeFileSyncFunc = async () => {
+//   try {
+//     fs.writeFileSync("input2.txt", "Intro to File Handling");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// writeFileSyncFunc();
+
+// fs.appendFile("input.txt", "Hello friends, happy coding!", (err) => {
+//   if (err) throw err;
+//   console.log("Saved!");
+// });
+
+// This part is for renaming a file
+// fs.rename("input.txt", "input3.txt", (err) => {
+//   if (err) throw err;
+//   console.log("File renamed!");
+// });
+
+// This part is for deleting a file
+fs.unlink("input3.txt", (err) => {
+  if (err)
+    return console.log(
+      "Something is wrong deleting the file or there is no file to delete."
+    );
+  console.log("File is deleted!");
+});

@@ -31,7 +31,7 @@ const evenNumbers = () => {
     }
   }
 };
-// evenNumbers();
+evenNumbers();
 
 const exampleBreakContinue = () => {
   for (position = 0; position <= 7; position++) {
@@ -64,4 +64,4 @@ const exampleLabel = () => {
 
   console.log(value2);
 };
-exampleLabel();
+// exampleLabel();
