@@ -14,3 +14,7 @@ exports.validateNewAcctInputs = function (firstName, lastName, balance) {
     /^[0-9]*$/.test(balance.trim())
   );
 };
+
+exports.getAccount = function (records, accountNumber) {
+  return records.find((each) => each.accountNumber == accountNumber);
+};

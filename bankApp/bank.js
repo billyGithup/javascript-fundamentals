@@ -4,7 +4,8 @@ const fs = require("fs");
 const {
   checkYorN,
   acctNumExists,
-  validateNewAcctInputs
+  validateNewAcctInputs,
+  getAccount
 } = require("./helpers");
 
 const title =
@@ -21,8 +22,10 @@ const byeMessage = "\nThank you for visiting us. Have a nice day!";
 let allAccounts = [];
 let originalAccountAmount = 0;
 
-if (fs.existsSync("accountDatabase.txt")) {
-  allAccounts = JSON.parse(fs.readFileSync("accountDatabase.txt", "utf8"));
+if (fs.existsSync("./bankApp/accountDatabase.txt")) {
+  allAccounts = JSON.parse(
+    fs.readFileSync("./bankApp/accountDatabase.txt", "utf8")
+  );
   originalAccountAmount = allAccounts.length;
 }
 
@@ -43,11 +46,19 @@ const handleMenu = (acct) => {
     handleMenu(acct);
   } else if (input == "2") {
     const currentBalance = parseInt(acct.balance);
-    console.log(typeof currentBalance);
     let withdrawAmount = prompt("How much would you like to withdraw?: ");
 
-    while (!/^[0-9]*$/.test(withdrawAmount)) {
-      withdrawAmount = prompt("Please enter only a number: ");
+    while (
+      !(
+        withdrawAmount.at(-3) == "." &&
+        /^[0-9]*$/.test(withdrawAmount.slice(-2)) &&
+        withdrawAmount.slice(-2).length == 2 &&
+        /^[0-9]*$/.test(withdrawAmount.slice(0, -3))
+      )
+    ) {
+      withdrawAmount = prompt(
+        "Please enter amount in the format of dollars and cents: "
+      );
     }
 
     if (withdrawAmount > currentBalance) {
@@ -60,11 +71,98 @@ const handleMenu = (acct) => {
       console.log(chalk.green("\nWithdraw: $" + withdrawAmount));
       console.log(
         chalk.green(
-          "Your current balance is $" +
-            (currentBalance - parseFloat(withdrawAmount).toFixed(2) + ".")
+          "Your current balance is $" + (currentBalance - withdrawAmount + ".")
         )
       );
-      acct.balance = currentBalance - parseFloat(acct.balance).toFixed(2);
+      acct.balance = currentBalance - withdrawAmount;
+    }
+
+    input = "";
+    handleMenu(acct);
+  } else if (input == "3") {
+    let depositAmount = prompt("How much would you like to deposit? ");
+
+    while (
+      !(
+        depositAmount.at(-3) == "." &&
+        /^[0-9]*$/.test(depositAmount.slice(-2)) &&
+        depositAmount.slice(-2).length == 2 &&
+        /^[0-9]*$/.test(depositAmount.slice(0, -3))
+      )
+    ) {
+      depositAmount = prompt(
+        "Please enter amount in the format of dollars and cents: "
+      );
+    }
+
+    console.log(chalk.green("\nDeposit: $" + depositAmount));
+    console.log(
+      chalk.green(
+        "Your current balance is $" +
+          (parseFloat(acct.balance) + parseFloat(depositAmount)).toFixed(2) +
+          "."
+      )
+    );
+
+    acct.balance = (
+      parseFloat(acct.balance) + parseFloat(depositAmount)
+    ).toFixed(2);
+
+    input = "";
+    handleMenu(acct);
+  } else if (input == "4") {
+    console.log(
+      chalk.green(
+        `\nName: ${acct.name}\nAccount Number: ${acct.accountNumber}\nBalance: $${acct.balance}\nCreated On: ${acct.createdAt}`
+      )
+    );
+
+    input = "";
+    handleMenu(acct);
+  } else if (input == "5") {
+    const newAcctDB = allAccounts.filter((each) => {
+      each.accountNumber != acct.accountNumber;
+    });
+
+    fs.writeFile(
+      "./bankApp/accountDatabase.txt",
+      JSON.stringify(newAcctDB),
+      (err) => {
+        if (err) throw err;
+        console.log(
+          chalk.green("\nThe account has been deleted successfully!")
+        );
+      }
+    );
+  } else {
+    const userAcct = getAccount(allAccounts, acct.accountNumber);
+
+    if (JSON.stringify(userAcct) == JSON.stringify(acct)) {
+      if (originalAccountAmount != allAccounts.length) {
+        fs.writeFile(
+          "./bankApp/accountDatabase.txt",
+          JSON.stringify(allAccounts),
+          (err) => {
+            if (err) throw err;
+            console.log(chalk.green(byeMessage));
+          }
+        );
+      } else console.log(chalk.green(byeMessage));
+    } else {
+      const acctIndex = allAccounts.findIndex((each) => {
+        each.accountNumber == userAcct.accountNumber;
+      });
+
+      allAccounts[acctIndex] = acct;
+
+      fs.writeFile(
+        "./bankApp/accountDatabase.txt",
+        JSON.stringify(allAccounts),
+        (err) => {
+          if (err) throw err;
+          console.log(chalk.green(byeMessage));
+        }
+      );
     }
   }
 };
