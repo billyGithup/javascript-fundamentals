@@ -123,7 +123,6 @@ const handleMenu = (acct) => {
     const newAcctDB = allAccounts.filter((each) => {
       each.accountNumber != acct.accountNumber;
     });
-
     fs.writeFile(
       "./bankApp/accountDatabase.txt",
       JSON.stringify(newAcctDB),
@@ -221,5 +220,14 @@ if (userInput.trim().toLowerCase() == "n") {
         )
       );
     }
+  }
+} else {
+  const userAcctNum = prompt("Please enter your account number: ");
+  const userAcct = getAccount(allAccounts, userAcctNum);
+
+  if (!userAcct) {
+    console.log(chalk.red("\nSorry! The account does not exist!"));
+  } else {
+    handleMenu({ ...userAcct });
   }
 }
