@@ -22,9 +22,10 @@ const byeMessage = "\nThank you for visiting us. Have a nice day!";
 let allAccounts = [];
 let originalAccountAmount = 0;
 
-if (fs.existsSync("./bankApp/accountDatabase.txt")) {
+if (fs.existsSync("accountDatabase.txt")) {
+  console.log('Found!');
   allAccounts = JSON.parse(
-    fs.readFileSync("./bankApp/accountDatabase.txt", "utf8")
+    fs.readFileSync("accountDatabase.txt", "utf8")
   );
   originalAccountAmount = allAccounts.length;
 }
@@ -125,7 +126,7 @@ const handleMenu = (acct) => {
     );
     console.log(newAcctDB);
     fs.writeFile(
-      "./bankApp/accountDatabase.txt",
+      "accountDatabase.txt",
       JSON.stringify(newAcctDB),
       (err) => {
         if (err) throw err;
@@ -140,7 +141,7 @@ const handleMenu = (acct) => {
     if (JSON.stringify(userAcct) == JSON.stringify(acct)) {
       if (originalAccountAmount != allAccounts.length) {
         fs.writeFile(
-          "./bankApp/accountDatabase.txt",
+          "accountDatabase.txt",
           JSON.stringify(allAccounts),
           (err) => {
             if (err) throw err;
@@ -156,7 +157,7 @@ const handleMenu = (acct) => {
       allAccounts[acctIndex] = acct;
 
       fs.writeFile(
-        "./bankApp/accountDatabase.txt",
+        "accountDatabase.txt",
         JSON.stringify(allAccounts),
         (err) => {
           if (err) throw err;

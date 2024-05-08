@@ -32,9 +32,9 @@ if (userInput.toLowerCase() == "n") {
   console.log(chalk.yellow("\nThank you for coming, bye!"));
 } else {
   // const bun = chooseYourBun();
-  const cheese = chooseYourCheese();
+  // const cheese = chooseYourCheese();
   // const meat = chooseYourMeat();
-  // const vegetables = chooseYourVegetables();
+  const vegetables = chooseYourVegetables();
 
   // const orderedSandwich = new Sandwich(bun, meat, vegetables, cheese);
 
