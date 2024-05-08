@@ -120,9 +120,10 @@ const handleMenu = (acct) => {
     input = "";
     handleMenu(acct);
   } else if (input == "5") {
-    const newAcctDB = allAccounts.filter((each) => {
-      each.accountNumber != acct.accountNumber;
-    });
+    const newAcctDB = allAccounts.filter(
+      (each) => each.accountNumber != acct.accountNumber
+    );
+    console.log(newAcctDB);
     fs.writeFile(
       "./bankApp/accountDatabase.txt",
       JSON.stringify(newAcctDB),
