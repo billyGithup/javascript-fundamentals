@@ -5,8 +5,10 @@ const {
   chooseYourBun,
   chooseYourCheese,
   chooseYourMeat,
-  chooseYourVegetables
+  chooseYourVegetables,
+  getTotalCost
 } = require("./helpers");
+const Sandwich = require("./sandwich.js");
 
 const shopTitle =
   "================================================\n" +
@@ -31,17 +33,16 @@ while (!checkYorN(userInput)) {
 if (userInput.toLowerCase() == "n") {
   console.log(chalk.yellow("\nThank you for coming, bye!"));
 } else {
-  // const bun = chooseYourBun();
-  // const cheese = chooseYourCheese();
-  // const meat = chooseYourMeat();
+  const bun = chooseYourBun();
+  const cheese = chooseYourCheese();
+  const meat = chooseYourMeat();
   const vegetables = chooseYourVegetables();
-
-  // const orderedSandwich = new Sandwich(bun, meat, vegetables, cheese);
+  const orderedSandwich = new Sandwich(bun, meat, vegetables, cheese);
 
   console.log(chalk.red("Your sandwich is being made. Please wait..."));
   setTimeout(() => {
     console.log(chalk.green("Your sandwich is ready!"));
-    // orderedSandwich.showInfo();
-    // console.log(`\nTotal cost: $${getTotalCost(orderedSandwich)}`);
-  }, 6000);
+    orderedSandwich.showInfo();
+    console.log(chalk.green(`\nTotal cost: $${getTotalCost(orderedSandwich)}`));
+  }, 3000);
 }

@@ -4,55 +4,49 @@ const vegetables = require("./ingredients/vegetables");
 const prompt = require("prompt-sync")({ sigint: true });
 const fs = require("fs");
 
+const promptUser = (promptMsgOne, menuNumbers) => {
+  let choice = prompt(promptMsgOne);
+  while (!(menuNumbers.includes(choice) && choice.length == 1)) {
+    choice = prompt("Please enter only the numbers on the menu: ");
+  }
+  return choice;
+};
+
+const showMenu = (itemList) => {
+  let menuNumbers = "";
+  console.log();
+  for (let index = 0; index < itemList.length; index++) {
+    const arr = [...itemList[index]];
+    arr.splice(1, 0, " - $");
+    menuNumbers += (index + 1).toString();
+    console.log(`${index + 1}. ${arr.join("")}`);
+  }
+  console.log();
+
+  // A brute-force way
+  // console.log(
+  //   `\n1. ${buns[0][0]} - $${buns[0][1]}\n2. ${buns[1][0]} - $${buns[1][1]}\n3. ${buns[2][0]} - $${buns[2][1]}\n4. ${buns[3][0]} - $${buns[3][1]}`
+  // );
+  // console.log();
+
+  return menuNumbers;
+};
+
 exports.checkYorN = function (input) {
   return "ynYN".includes(input) && input.length == 1;
 };
 
 exports.chooseYourBun = () => {
   const buns = Object.entries(bun);
-  let menuNumbers = "";
-
-  // A more efficient way
-  console.log();
-  for (let index = 0; index < buns.length; index++) {
-    const arr = [...buns[index]];
-    arr.splice(1, 0, " - $");
-    menuNumbers += (index + 1).toString();
-    console.log(`${index + 1}. ${arr.join("")}`);
-  }
-
-  // A brute-force way
-  // console.log(
-  //   `\n1. ${buns[0][0]} - $${buns[0][1]}\n2. ${buns[1][0]} - $${buns[1][1]}\n3. ${buns[2][0]} - $${buns[2][1]}\n4. ${buns[3][0]} - $${buns[3][1]}`
-  // );
-  console.log();
-
-  let bunChoice = prompt("Please choose your bun: ");
-  while (!(menuNumbers.includes(bunChoice) && bunChoice.length == 1)) {
-    bunChoice = prompt("Please enter only the numbers on the menu: ");
-  }
-
+  const menuNumbers = showMenu(buns);
+  const bunChoice = promptUser("Please choose your bun: ", menuNumbers);
   return buns[parseInt(bunChoice) - 1];
 };
 
 exports.chooseYourCheese = function () {
   const cheeseList = Object.entries(cheese.cheese);
-  let menuNumbers = "";
-
-  console.log();
-  for (let index = 0; index < cheeseList.length; index++) {
-    const arr = [...cheeseList[index]];
-    arr.splice(1, 0, " - $");
-    menuNumbers += (index + 1).toString();
-    console.log(`${index + 1}. ${arr.join("")}`);
-  }
-  console.log();
-
-  let cheeseChoice = prompt("Please choose your cheese: ");
-  while (!(menuNumbers.includes(cheeseChoice) && cheeseChoice.length == 1)) {
-    cheeseChoice = prompt("Please enter only the numbers on the menu: ");
-  }
-
+  const menuNumbers = showMenu(cheeseList);
+  const cheeseChoice = promptUser("Please choose your cheese: ", menuNumbers);
   return cheeseList[parseInt(cheeseChoice) - 1];
 };
 
@@ -77,10 +71,7 @@ exports.chooseYourMeat = function () {
     }
     console.log();
 
-    let meatChoice = prompt("Please choose your meat: ");
-    while (!(menuNumbers.includes(meatChoice) && meatChoice.length == 1)) {
-      meatChoice = prompt("Please enter only the numbers on the menu: ");
-    }
+    const meatChoice = promptUser("Please choose your meat: ", menuNumbers);
 
     return meatList[parseInt(meatChoice) - 1];
   } catch (error) {
@@ -105,8 +96,36 @@ exports.chooseYourVegetables = function () {
   }
   console.log();
 
-  let vegieChoice = prompt("Please choose your vegetables: ");
-  while (!(menuNumbers.includes(vegieChoice) && vegieChoice.length == 1)) {
-    vegieChoice = prompt("Please enter only the numbers on the menu: ");
+  const vegieChoice = promptUser(
+    "Please choose your vegetables: ",
+    menuNumbers
+  );
+
+  if (vegieChoice == "5") {
+    return vegies;
+  } else {
+    return vegies[parseInt(vegieChoice) - 1];
   }
+};
+
+exports.getTotalCost = function (orderedSandwich) {
+  let vegieTotalCost = 0;
+
+  if (
+    orderedSandwich.vegetables.length == 2 &&
+    orderedSandwich.vegetables[0] != "object"
+  ) {
+    vegieTotalCost += orderedSandwich.vegetables[1];
+  } else {
+    for (let index = 0; index < orderedSandwich.vegetables.length; index++) {
+      vegieTotalCost += orderedSandwich.vegetables[index][1];
+    }
+  }
+
+  return (
+    orderedSandwich.bun.pop() +
+    orderedSandwich.cheese.pop() +
+    parseFloat(orderedSandwich.meat.slice(-4)) +
+    vegieTotalCost
+  ).toFixed(2);
 };
